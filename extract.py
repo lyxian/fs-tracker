@@ -1,25 +1,29 @@
-import random
+import pandas
 import json
-import os
 
 # if __name__ == '__main__':
 directory = 'data'
-files = os.listdir(directory)
-num = random.randint(0, len(files)-1)
 
-# with open(os.path.join(directory, files[0])) as file:
-#     items = json.load(file)
+file1 = 'data/2022-01-08:12H.json'
+file2 = 'data/2022-01-08:18H.json'
 
-# items = data['data']['resultValue']['101102']['data'][0]['items']
-# print(data)
+keys = [
+    'itemId',
+    'itemTitle',
+    'itemUrl',
+]
 
-file1 = 'data/2022-01-05:12H.json'
-file2 = 'data/2022-01-05:18H.json'
+def getNames(filename):
+    with open(filename, 'r') as file:
+        items = json.load(file)
 
-with open(file1, 'r') as file:
-    items = json.load(file)
-    print(f'{file1}: {len(items)}')
+    return pandas.DataFrame(sorted([{k:v for k,v in item.items() if k in keys} for item in items], key=lambda x: x['itemId']))
 
-with open(file2, 'r') as file:
-    items = json.load(file)
-    print(f'{file2}: {len(items)}')
+if __name__ == '__main__':
+    df1 = getNames(file1)
+    df2 = getNames(file2)
+
+    df1.to_csv('df1.csv', index=False)
+    df2.to_csv('df2.csv', index=False)
+
+    # print(d)

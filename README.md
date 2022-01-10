@@ -14,12 +14,24 @@ function sleep(ms) {
 return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-document.querySelectorAll('a.button')[1].remove()
+document.querySelectorAll('a.button').forEach(button => {
+if (button.dataset.campIndex != '0') {button.remove()};
+});
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 40; i++) {
 document.querySelector('a.button').click()
 await sleep(3000);
 }
+
+## Dashboard
+
+- show top 10 best selling products by:
+  - sold ratio
+  - item rating
+  - item discount
+  - category
+- check difference in products
+- classify products based on name
 
 ## ITEMS
 
@@ -42,6 +54,7 @@ await sleep(3000);
   - itemReviews
   - itemRatingScore
   - trackInfo > fs_min_price_l30d
+  - lowestPrice
 - bizCategory :
   { "id": 1, "text": "Electronics & Appliances" },
   { "id": 2, "text": "Health & Beauty" },
